@@ -1,6 +1,11 @@
 # Otimização de Estoque com Programação Dinâmica
 
-Este projeto apresenta uma solução para o problema de gestão de estoque de insumos de diagnóstico, utilizando Programação Dinâmica (PD) para determinar uma política de pedidos ótima que minimiza os custos totais ao longo de um horizonte de tempo definido.
+### Integrantes
+- Gabriel Gouvea - 555528
+- Leonardo Correa de Mello - 555573
+- Miguel Kapicius Caires - 556198
+- Pedro Visconti Guidotte - 556630
+- Thiago Ferreira Oliveira - 555608
 
 ## 📄 Sumário
 
@@ -40,7 +45,7 @@ Para resolver este problema com PD, definimos os seguintes componentes, baseados
 A equação de Bellman para o problema é:
 > $$ C_t(s_t) = \min_{0 \le x_t \le S_{max} - s_t} \left\{ \text{CustoImediato}(s_t, x_t) + C_{t+1}(s_{t+1}) \right\} $$
 
-Onde `CustoImediato` inclui os quatro componentes de custo listados acima, e `C_{t+1}(s_{t+1})` é o custo futuro ótimo, que já foi (ou será) calculado.
+Onde `CustoImediato` inclui os quatro componentes de custo listados acima, e `C_{t+1}(s_{t+1})` é o custo futuro ótimo.
 
 ## 📂 Estrutura do Projeto
 
@@ -137,3 +142,5 @@ Esta tabela fornece um guia de ação claro para o gestor de estoque. Por exempl
 ## ✅ Conclusão
 
 Este projeto demonstra com sucesso como a Programação Dinâmica pode ser aplicada para resolver um problema real de otimização de estoque. As duas implementações (iterativa e recursiva com memoização) foram validadas e produzem uma política de pedidos ótima e acionável. A estrutura modular e configurável do código o torna uma ferramenta flexível e robusta para análise e tomada de decisão.
+```
+
