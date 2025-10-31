@@ -14,6 +14,7 @@
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Como Executar](#-como-executar)
 - [Análise dos Algoritmos Implementados](#-análise-dos-algoritmos-implementados)
+- [Análise de Complexidade](#-análise-de-complexidade)
 - [Exemplo de Saída](#-exemplo-de-saída)
 - [Conclusão](#-conclusão)
 
@@ -46,9 +47,14 @@ O estoque também é limitado pela capacidade máxima `S_max`.
 
 A equação de Bellman para o problema é:
 
-$$ C_t(s_t) = \min_{0 \le x_t \le S_{max} - s_t} \left\{ \text{CustoImediato}(s_t, x_t) + C_{t+1}(s_{t+1}) \right\} $$
+$$ C_t(s_t) = \min_{0 \le x_t \le S_{\text{max}} - s_t} \left\{ \text{CustoImediato}(s_t, x_t) + C_{t+1}(s_{t+1}) \right\} $$
 
-Onde `CustoImediato` inclui os quatro componentes de custo listados acima, e `C_{t+1}(s_{t+1})` é o custo futuro ótimo, que já foi (ou será) calculado.
+Onde:
+- $\text{CustoImediato}(s_t, x_t) = \text{CustoPedido}(x_t) + \text{CustoFalta}(s_t, x_t, d_t) + \text{CustoManutencao}(s_t, x_t, d_t)$
+- $\text{CustoPedido}(x_t) = \begin{cases} K_{\text{fixo}} + c_p \cdot x_t & \text{se } x_t > 0 \\ 0 & \text{se } x_t = 0 \end{cases}$
+- $\text{CustoFalta}(s_t, x_t, d_t) = c_s \cdot \max(0, d_t - (s_t + x_t))$
+- $\text{CustoManutencao}(s_t, x_t, d_t) = c_h \cdot \max(0, (s_t + x_t) - d_t)$
+- $s_{t+1} = \max(0, (s_t + x_t) - d_t)$
 
 ## 📂 Estrutura do Projeto
 
@@ -116,6 +122,29 @@ O projeto implementa as duas abordagens clássicas de Programação Dinâmica pa
 
 A **validação cruzada** em `main.py` confirma que `abs(cost_iterative - cost_recursive) < 1e-6`, provando que ambas as implementações são funcionalmente idênticas e corretas.
 
+## ⚡ Análise de Complexidade
+
+### Complexidade Temporal
+- **Notação Big O:** `O(T × S_max²)`
+- **Explicação:** 
+  - Para cada período `t` (de 1 a T), iteramos sobre todos os estados possíveis `s_t` (de 0 a S_max)
+  - Para cada estado, iteramos sobre todas as decisões possíveis `x_t` (de 0 a S_max - s_t)
+  - No pior caso, isso resulta em `T × S_max × S_max = T × S_max²` operações
+
+### Complexidade Espacial
+- **Notação Big O:** `O(T × S_max)`
+- **Explicação:**
+  - Armazenamos duas tabelas: `dp[t][s]` e `policy[t][s]`
+  - Cada tabela tem dimensões `(T+1) × (S_max+1)`
+  - A abordagem recursiva adicionalmente usa uma pilha de chamadas com profundidade máxima `T`
+
+### Comparação de Desempenho
+
+| Abordagem | Complexidade Temporal | Complexidade Espacial | Overhead | Caso Ideal |
+|-----------|---------------------|---------------------|----------|------------|
+| Iterativa | O(T × S_max²) | O(T × S_max) | Baixo | Espaço de estados denso |
+| Recursiva | O(T × S_max²) | O(T × S_max) | Médio | Espaço de estados esparso |
+
 ## 📈 Exemplo de Saída
 
 A execução do script produzirá uma saída detalhada, incluindo:
@@ -141,3 +170,12 @@ Esta tabela fornece um guia de ação claro para o gestor de estoque. Por exempl
 ## ✅ Conclusão
 
 Este projeto demonstra com sucesso como a Programação Dinâmica pode ser aplicada para resolver um problema real de otimização de estoque. As duas implementações (iterativa e recursiva com memoização) foram validadas e produzem uma política de pedidos ótima e acionável. A estrutura modular e configurável do código o torna uma ferramenta flexível e robusta para análise e tomada de decisão.
+
+**Principais Contribuições:**
+- Modelagem matemática rigorosa do problema de gestão de estoque
+- Implementação de duas abordagens equivalentes de Programação Dinâmica
+- Validação cruzada garantindo a correção dos algoritmos
+- Análise detalhada de complexidade computacional
+- Interface clara para execução e interpretação dos resultados
+
+O projeto serve como base para extensões futuras, como a incorporação de incerteza na demanda ou a consideração de lead times não nulos.
