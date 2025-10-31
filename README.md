@@ -1,6 +1,7 @@
+
 # Otimização de Estoque com Programação Dinâmica
 
-### Integrantes
+### Integrantes do Grupo
 - Gabriel Gouvea - 555528
 - Leonardo Correa de Mello - 555573
 - Miguel Kapicius Caires - 556198
@@ -33,7 +34,9 @@ Para resolver este problema com PD, definimos os seguintes componentes, baseados
 -   **Estados (`s_t`):** O nível de estoque disponível no **início** do período `t`.
 -   **Decisões (`x_t`):** A quantidade de insumos a ser pedida no início do período `t`. A decisão é restrita pela capacidade máxima de armazenamento (`S_max`).
 -   **Função de Transição de Estado:** Define como o estoque evolui. O estoque no início do próximo período (`s_{t+1}`) é o que resta do estoque atual mais o que foi pedido, após atender à demanda (`d_t`).
-    > $$ s_{t+1} = \max(0, s_t + x_t - d_t) $$
+    
+    $$ s_{t+1} = \max(0, s_t + x_t - d_t) $$
+
     O estoque também é limitado pela capacidade máxima `S_max`.
 
 -   **Função Objetivo (Custo):** O objetivo é minimizar o custo total, que é a soma dos custos em cada período. O custo de um período é composto por:
@@ -43,15 +46,16 @@ Para resolver este problema com PD, definimos os seguintes componentes, baseados
     4.  **Custo de Falta (`c_s`):** Penalidade por unidade de demanda não atendida.
 
 A equação de Bellman para o problema é:
-> $$ C_t(s_t) = \min_{0 \le x_t \le S_{max} - s_t} \left\{ \text{CustoImediato}(s_t, x_t) + C_{t+1}(s_{t+1}) \right\} $$
 
-Onde `CustoImediato` inclui os quatro componentes de custo listados acima, e `C_{t+1}(s_{t+1})` é o custo futuro ótimo.
+$$ C_t(s_t) = \min_{0 \le x_t \le S_{max} - s_t} \left\{ \text{CustoImediato}(s_t, x_t) + C_{t+1}(s_{t+1}) \right\} $$
+
+Onde `CustoImediato` inclui os quatro componentes de custo listados acima, e `C_{t+1}(s_{t+1})` é o custo futuro ótimo, que já foi (ou será) calculado.
 
 ## 📂 Estrutura do Projeto
 
 O código está organizado de forma modular para separar responsabilidades, facilitar a manutenção e a clareza.
 
-```
+
 .
 └── src
     ├── config.json
@@ -59,7 +63,7 @@ O código está organizado de forma modular para separar responsabilidades, faci
     ├── dp_recursive.py
     ├── main.py
     └── utils.py
-```
+
 
 -   `config.json`: Arquivo de configuração em formato JSON. Centraliza todos os parâmetros do modelo (horizonte, custos, demandas, capacidade), permitindo testar diferentes cenários sem alterar o código.
 
@@ -126,7 +130,6 @@ A execução do script produzirá uma saída detalhada, incluindo:
 2.  A confirmação de que os custos são idênticos.
 3.  A política de pedidos ótima, detalhada período a período:
 
-```
 --- Política de Pedidos Ótima (Iterativa) ---
 Período (t)  Estoque Inicial (s_t)   Demanda (d_t)   Decisão (x_t)   Custo do Período     Estoque Final (s_t+1)
 ----------------------------------------------------------------------------------------------------------
@@ -136,11 +139,10 @@ Período (t)  Estoque Inicial (s_t)   Demanda (d_t)   Decisão (x_t)   Custo do 
 4            0                       20              20              80.00                0
 
 Custo total calculado na trajetória: 290.00
-```
+
 Esta tabela fornece um guia de ação claro para o gestor de estoque. Por exemplo, no período 1, começando com 20 unidades, a decisão ótima é pedir mais 5 unidades.
 
 ## ✅ Conclusão
 
 Este projeto demonstra com sucesso como a Programação Dinâmica pode ser aplicada para resolver um problema real de otimização de estoque. As duas implementações (iterativa e recursiva com memoização) foram validadas e produzem uma política de pedidos ótima e acionável. A estrutura modular e configurável do código o torna uma ferramenta flexível e robusta para análise e tomada de decisão.
 ```
-
