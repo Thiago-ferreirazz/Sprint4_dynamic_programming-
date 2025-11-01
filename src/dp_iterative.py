@@ -1,5 +1,5 @@
 from typing import List, Tuple
-from src.utils import ModelParameters, calculate_immediate_cost
+from utils import ModelParameters, calculate_immediate_cost
 
 
 def solve_iterative(params: ModelParameters) -> Tuple[List[List[float]], List[List[int]]]:
@@ -32,4 +32,5 @@ def solve_iterative(params: ModelParameters) -> Tuple[List[List[float]], List[Li
             # Armazena o resultado na tabela
             dp[t][s_t] = min_total_cost
             policy[t][s_t] = best_x_t
+
     return dp, policy
