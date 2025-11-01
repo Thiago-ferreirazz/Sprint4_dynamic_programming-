@@ -1,6 +1,6 @@
 import sys
 from typing import List, Tuple, Dict
-from src.utils import ModelParameters, calculate_immediate_cost
+from utils import ModelParameters, calculate_immediate_cost
 
 sys.setrecursionlimit(2000)
 
@@ -38,4 +38,5 @@ def solve_recursive_wrapper(params: ModelParameters) -> Tuple[float, List[List[i
         return min_total_cost
 
     min_cost = find_min_cost(1, params.estoque_inicial_s1)
+
     return min_cost, policy
